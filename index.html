@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FinPilot: Advanced budget planning, interest calculator, and financial tools with multi-currency support.">
+  <meta name="keywords" content="budget planner, interest calculator, multi-currency, financial planning, personal finance, debt management, savings goals">
+  <meta name="author" content="FinPilot Team">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#ffffff">
+  <title>FinPilot — Smart Budget & Interest Planner</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to main content</a>
+  <header class="header" role="banner">
+    <h1 class="logo">FinPilot</h1>
+    <nav aria-label="Site controls">
+      <div class="toggle-container">
+        <label for="darkModeToggle" class="toggle-label">🌙 Dark Mode</label>
+        <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+      </div>
+      <div class="language-selector">
+        <label for="languageSelect">Language</label>
+        <select id="languageSelect" aria-label="Select interface language">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="zh">中文</option>
+          <option value="ja">日本語</option>
+          <option value="ar">العربية</option>
+          <option value="ru">Русский</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" id="main" role="main">
+    <section class="card" id="budgetSection" aria-labelledby="budgetTitle">
+      <h2 id="budgetTitle" class="section-title">Budget Planner</h2>
+      <form id="budgetForm" aria-describedby="budgetDesc">
+        <p id="budgetDesc" class="sr-only">Manage your income, expense categories, and recurring expenses to plan your monthly budget with multi-currency support.</p>
+        <div class="form-group">
+          <label for="currencySelect">Currency</label>
+          <select id="currencySelect" aria-label="Select currency">
+            <optgroup label="Americas">
+              <option value="USD">USD ($)</option>
+              <option value="CAD">CAD ($)</option>
+              <option value="MXN">MXN ($)</option>
+              <option value="BRL">BRL (R$)</option>
+              <option value="ARS">ARS ($)</option>
+              <option value="CLP">CLP ($)</option>
+              <option value="COP">COP ($)</option>
+              <option value="PEN">PEN (S/.)</option>
+              <option value="UYU">UYU ($)</option>
+              <option value="VES">VES (Bs.)</option>
+            </optgroup>
+            <optgroup label="Europe">
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="CHF">CHF (Fr.)</option>
+              <option value="DKK">DKK (kr)</option>
+              <option value="NOK">NOK (kr)</option>
+              <option value="SEK">SEK (kr)</option>
+              <option value="PLN">PLN (zł)</option>
+              <option value="CZK">CZK (Kč)</option>
+              <option value="HUF">HUF (Ft)</option>
+              <option value="RUB">RUB (₽)</option>
+            </optgroup>
+            <optgroup label="Asia">
+              <option value="JPY">JPY (¥)</option>
+              <option value="CNY">CNY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="KRW">KRW (₩)</option>
+              <option value="SGD">SGD ($)</option>
+              <option value="HKD">HKD ($)</option>
+              <option value="THB">THB (฿)</option>
+              <option value="MYR">MYR (RM)</option>
+              <option value="IDR">IDR (Rp)</option>
+              <option value="PHP">PHP (₱)</option>
+            </optgroup>
+            <optgroup label="Middle East & Africa">
+              <option value="AED">AED (د.إ)</option>
+              <option value="SAR">SAR (ر.س)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="EGP">EGP (£)</option>
+              <option value="QAR">QAR (ر.ق)</option>
+              <option value="KWD">KWD (د.ك)</option>
+              <option value="MAD">MAD (د.م.)</option>
+              <option value="NGN">NGN (₦)</option>
+              <option value="KES">KES (KSh)</option>
+              <option value="GHS">GHS (₵)</option>
+            </optgroup>
+            <optgroup label="Oceania">
+              <option value="AUD">AUD ($)</option>
+              <option value="NZD">NZD ($)</option>
+              <option value="FJD">FJD ($)</option>
+              <option value="PGK">PGK (K)</option>
+              <option value="SBD">SBD ($)</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="AFN">AFN (؋)</option>
+              <option value="ALL">ALL (L)</option>
+              <option value="AMD">AMD (֏)</option>
+              <option value="ANG">ANG (ƒ)</option>
+              <option value="AOA">AOA (Kz)</option>
+              <option value="AWG">AWG (ƒ)</option>
+              <option value="AZN">AZN (₼)</option>
+              <option value="BAM">BAM (KM)</option>
+              <option value="BBD">BBD ($)</option>
+              <option value="BDT">BDT (৳)</option>
+              <option value="BGN">BGN (лв)</option>
+              <option value="BHD">BHD (.د.ب)</option>
+              <option value="BIF">BIF (FBu)</option>
+              <option value="BMD">BMD ($)</option>
+              <option value="BND">BND ($)</option>
+              <option value="BOB">BOB (Bs.)</option>
+              <option value="BSD">BSD ($)</option>
+              <option value="BTN">BTN (Nu.)</option>
+              <option value="BWP">BWP (P)</option>
+              <option value="BYN">BYN (Br)</option>
+              <option value="BZD">BZD ($)</option>
+              <option value="CDF">CDF (FC)</option>
+              <option value="CRC">CRC (₡)</option>
+              <option value="CUP">CUP ($)</option>
+              <option value="CVE">CVE ($)</option>
+              <option value="DJF">DJF (Fdj)</option>
+              <option value="DOP">DOP (RD$)</option>
+              <option value="DZD">DZD (د.ج)</option>
+              <option value="ERN">ERN (Nfk)</option>
+              <option value="ETB">ETB (Br)</option>
+              <option value="FKP">FKP (£)</option>
+              <option value="FOK">FOK (kr)</option>
+              <option value="GEL">GEL (₾)</option>
+              <option value="GGP">GGP (£)</option>
+              <option value="GIP">GIP (£)</option>
+              <option value="GMD">GMD (D)</option>
+              <option value="GNF">GNF (FG)</option>
+              <option value="GTQ">GTQ (Q)</option>
+              <option value="GYD">GYD ($)</option>
+              <option value="HNL">HNL (L)</option>
+              <option value="HRK">HRK (kn)</option>
+              <option value="HTG">HTG (G)</option>
+              <option value="ILS">ILS (₪)</option>
+              <option value="IMP">IMP (£)</option>
+              <option value="IQD">IQD (ع.د)</option>
+              <option value="IRR">IRR (﷼)</option>
+              <option value="ISK">ISK (kr)</option>
+              <option value="JEP">JEP (£)</option>
+              <option value="JMD">JMD (J$)</option>
+              <option value="JOD">JOD (JD)</option>
+              <option value="KGS">KGS (с)</option>
+              <option value="KHR">KHR (៛)</option>
+              <option value="KID">KID ($)</option>
+              <option value="KMF">KMF (CF)</option>
+              <option value="KYD">KYD ($)</option>
+              <option value="KZT">KZT (₸)</option>
+              <option value="LAK">LAK (₭)</option>
+              <option value="LBP">LBP (ل.ل)</option>
+              <option value="LKR">LKR (₨)</option>
+              <option value="LRD">LRD ($)</option>
+              <option value="LSL">LSL (M)</option>
+              <option value="LYD">LYD (ل.د)</option>
+              <option value="MDL">MDL (L)</option>
+              <option value="MGA">MGA (Ar)</option>
+              <option value="MKD">MKD (ден)</option>
+              <option value="MMK">MMK (K)</option>
+              <option value="MNT">MNT (₮)</option>
+              <option value="MOP">MOP (P)</option>
+              <option value="MRU">MRU (UM)</option>
+              <option value="MUR">MUR (₨)</option>
+              <option value="MVR">MVR (Rf)</option>
+              <option value="MWK">MWK (MK)</option>
+              <option value="MZN">MZN (MT)</option>
+              <option value="NAD">NAD ($)</option>
+              <option value="NIO">NIO (C$)</option>
+              <option value="NPR">NPR (₨)</option>
+              <option value="OMR">OMR (ر.ع.)</option>
+              <option value="PAB">PAB (B/.)</option>
+              <option value="PGK">PGK (K)</option>
+              <option value="PKR">PKR (₨)</option>
+              <option value="PYG">PYG (₲)</option>
+              <option value="RON">RON (lei)</option>
+              <option value="RSD">RSD (дин)</option>
+              <option value="RWF">RWF (FRw)</option>
+              <option value="SBD">SBD ($)</option>
+              <option value="SCR">SCR (₨)</option>
+              <option value="SDG">SDG (ج.س)</option>
+              <option value="SHP">SHP (£)</option>
+              <option value="SLL">SLL (Le)</option>
+              <option value="SOS">SOS (Sh)</option>
+              <option value="SRD">SRD ($)</option>
+              <option value="SSP">SSP (£)</option>
+              <option value="STN">STN (Db)</option>
+              <option value="SYP">SYP (£S)</option>
+              <option value="SZL">SZL (E)</option>
+              <option value="TJS">TJS (SM)</option>
+              <option value="TMT">TMT (m)</option>
+              <option value="TND">TND (د.ت)</option>
+              <option value="TOP">TOP (T$)</option>
+              <option value="TRY">TRY (₺)</option>
+              <option value="TTD">TTD (TT$)</option>
+              <option value="TVD">TVD ($)</option>
+              <option value="TWD">TWD (NT$)</option>
+              <option value="TZS">TZS (TSh)</option>
+              <option value="UAH">UAH (₴)</option>
+              <option value="UGX">UGX (USh)</option>
+              <option value="UZS">UZS (soʻm)</option>
+              <option value="VND">VND (₫)</option>
+              <option value="VUV">VUV (VT)</option>
+              <option value="WST">WST (T)</option>
+              <option value="XAF">XAF (FCFA)</option>
+              <option value="XCD">XCD ($)</option>
+              <option value="XOF">XOF (CFA)</option>
+              <option value="XPF">XPF (₣)</option>
+              <option value="YER">YER (﷼)</option>
+              <option value="ZMW">ZMW (ZK)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="categoriesContainer" role="list" aria-live="polite">
+          <!-- Categories injected here -->
+        </div>
+        <button type="button" id="addCategoryBtn" class="btn btn-secondary" aria-label="Add budget category">+ Add Category</button>
+        <fieldset>
+          <legend>Recurring Expenses</legend>
+          <div id="recurringExpensesContainer" role="list" aria-live="polite">
+            <div class="form-group">
+              <label for="recurringName">Expense Name</label>
+              <input type="text" id="recurringName" placeholder="e.g., Netflix" aria-describedby="recurringNameHelp">
+              <small id="recurringNameHelp" class="helper-text">Enter the recurring expense name</small>
+              <label for="recurringAmount">Amount</label>
+              <input type="number" id="recurringAmount" min="0" step="0.01" placeholder="0.00" aria-describedby="recurringAmountHelp">
+              <small id="recurringAmountHelp" class="helper-text">Enter the expense amount</small>
+              <label for="recurringFrequency">Frequency</label>
+              <select id="recurringFrequency" aria-label="Select expense frequency">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+              <button type="button" class="btn btn-secondary" aria-label="Add recurring expense">+ Add Expense</button>
+            </div>
+          </div>
+        </fieldset>
+        <div class="summary">
+          <div class="form-group">
+            <label for="totalIncome" class="summary-label">Total Income</label>
+            <input type="number" id="totalIncome" min="0" step="0.01" placeholder="0.00" aria-describedby="incomeHelp" required>
+            <small id="incomeHelp" class="helper-text">Enter your monthly income</small>
+          </div>
+          <div class="summary-output">
+            <p><strong>Total Expenses:</strong> <span id="totalExpenses">0.00</span></p>
+            <p><strong>Balance:</strong> <span id="balance">0.00</span></p>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" id="interestSection" aria-labelledby="interestTitle">
+      <h2 id="interestTitle" class="section-title">Interest Calculator</h2>
+      <form id="interestForm" aria-describedby="interestDesc">
+        <p id="interestDesc" class="sr-only">Calculate simple or compound interest on your savings or investments with multi-currency support.</p>
+        <div class="form-group">
+          <label for="currencySelectInterest">Currency</label>
+          <select id="currencySelectInterest" aria-label="Select currency for interest calculation">
+            <optgroup label="Americas">
+              <option value="USD">USD ($)</option>
+              <option value="CAD">CAD ($)</option>
+              <option value="MXN">MXN ($)</option>
+              <option value="BRL">BRL (R$)</option>
+              <option value="ARS">ARS ($)</option>
+              <option value="CLP">CLP ($)</option>
+              <option value="COP">COP ($)</option>
+              <option value="PEN">PEN (S/.)</option>
+              <option value="UYU">UYU ($)</option>
+              <option value="VES">VES (Bs.)</option>
+            </optgroup>
+            <optgroup label="Europe">
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="CHF">CHF (Fr.)</option>
+              <option value="DKK">DKK (kr)</option>
+              <option value="NOK">NOK (kr)</option>
+              <option value="SEK">SEK (kr)</option>
+              <option value="PLN">PLN (zł)</option>
+              <option value="CZK">CZK (Kč)</option>
+              <option value="HUF">HUF (Ft)</option>
+              <option value="RUB">RUB (₽)</option>
+            </optgroup>
+            <optgroup label="Asia">
+              <option value="JPY">JPY (¥)</option>
+              <option value="CNY">CNY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="KRW">KRW (₩)</option>
+              <option value="SGD">SGD ($)</option>
+              <option value="HKD">HKD ($)</option>
+              <option value="THB">THB (฿)</option>
+              <option value="MYR">MYR (RM)</option>
+              <option value="IDR">IDR (Rp)</option>
+              <option value="PHP">PHP (₱)</option>
+            </optgroup>
+            <optgroup label="Middle East & Africa">
+              <option value="AED">AED (د.إ)</option>
+              <option value="SAR">SAR (ر.س)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="EGP">EGP (£)</option>
+              <option value="QAR">QAR (ر.ق)</option>
+              <option value="KWD">KWD (د.ك)</option>
+              <option value="MAD">MAD (د.م.)</option>
+              <option value="NGN">NGN (₦)</option>
+              <option value="KES">KES (KSh)</option>
+              <option value="GHS">GHS (₵)</option>
+            </optgroup>
+            <optgroup label="Oceania">
+              <option value="AUD">AUD ($)</option>
+              <option value="NZD">NZD ($)</option>
+              <option value="FJD">FJD ($)</option>
+              <option value="PGK">PGK (K)</option>
+              <option value="SBD">SBD ($)</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="AFN">AFN (؋)</option>
+              <option value="ALL">ALL (L)</option>
+              <option value="AMD">AMD (֏)</option>
+              <option value="ANG">ANG (ƒ)</option>
+              <option value="AOA">AOA (Kz)</option>
+              <option value="AWG">AWG (ƒ)</option>
+              <option value="AZN">AZN (₼)</option>
+              <option value="BAM">BAM (KM)</option>
+              <option value="BBD">BBD ($)</option>
+              <option value="BDT">BDT (৳)</option>
+              <option value="BGN">BGN (лв)</option>
+              <option value="BHD">BHD (.د.ب)</option>
+              <option value="BIF">BIF (FBu)</option>
+              <option value="BMD">BMD ($)</option>
+              <option value="BND">BND ($)</option>
+              <option value="BOB">BOB (Bs.)</option>
+              <option value="BSD">BSD ($)</option>
+              <option value="BTN">BTN (Nu.)</option>
+              <option value="BWP">BWP (P)</option>
+              <option value="BYN">BYN (Br)</option>
+              <option value="BZD">BZD ($)</option>
+              <option value="CDF">CDF (FC)</option>
+              <option value="CRC">CRC (₡)</option>
+              <option value="CUP">CUP ($)</option>
+              <option value="CVE">CVE ($)</option>
+              <option value="DJF">DJF (Fdj)</option>
+              <option value="DOP">DOP (RD$)</option>
+              <option value="DZD">DZD (د.ج)</option>
+              <option value="ERN">ERN (Nfk)</option>
+              <option value="ETB">ETB (Br)</option>
+              <option value="FKP">FKP (£)</option>
+              <option value="FOK">FOK (kr)</option>
+              <option value="GEL">GEL (₾)</option>
+              <option value="GGP">GGP (£)</option>
+              <option value="GIP">GIP (£)</option>
+              <option value="GMD">GMD (D)</option>
+              <option value="GNF">GNF (FG)</option>
+              <option value="GTQ">GTQ (Q)</option>
+              <option value="GYD">GYD ($)</option>
+              <option value="HNL">HNL (L)</option>
+              <option value="HRK">HRK (kn)</option>
+              <option value="HTG">HTG (G)</option>
+              <option value="ILS">ILS (₪)</option>
+              <option value="IMP">IMP (£)</option>
+              <option value="IQD">IQD (ع.د)</option>
+              <option value="IRR">IRR (﷼)</option>
+              <option value="ISK">ISK (kr)</option>
+              <option value="JEP">JEP (£)</option>
+              <option value="JMD">JMD (J$)</option>
+              <option value="JOD">JOD (JD)</option>
+              <option value="KGS">KGS (с)</option>
+              <option value="KHR">KHR (៛)</option>
+              <option value="KID">KID ($)</option>
+              <option value="KMF">KMF (CF)</option>
+              <option value="KYD">KYD ($)</option>
+              <option value="KZT">KZT (₸)</option>
+              <option value="LAK">LAK (₭)</option>
+              <option value="LBP">LBP (ل.ل)</option>
+              <option value="LKR">LKR (₨)</option>
+              <option value="LRD">LRD ($)</option>
+              <option value="LSL">LSL (M)</option>
+              <option value="LYD">LYD (ل.د)</option>
+              <option value="MDL">MDL (L)</option>
+              <option value="MGA">MGA (Ar)</option>
+              <option value="MKD">MKD (ден)</option>
+              <option value="MMK">MMK (K)</option>
+              <option value="MNT">MNT (₮)</option>
+              <option value="MOP">MOP (P)</option>
+              <option value="MRU">MRU (UM)</option>
+              <option value="MUR">MUR (₨)</option>
+              <option value="MVR">MVR (Rf)</option>
+              <option value="MWK">MWK (MK)</option>
+              <option value="MZN">MZN (MT)</option>
+              <option value="NAD">NAD ($)</option>
+              <option value="NIO">NIO (C$)</option>
+              <option value="NPR">NPR (₨)</option>
+              <option value="OMR">OMR (ر.ع.)</option>
+              <option value="PAB">PAB (B/.)</option>
+              <option value="PGK">PGK (K)</option>
+              <option value="PKR">PKR (₨)</option>
+              <option value="PYG">PYG (₲)</option>
+              <option value="RON">RON (lei)</option>
+              <option value="RSD">RSD (дин)</option>
+              <option value="RWF">RWF (FRw)</option>
+              <option value="SBD">SBD ($)</option>
+              <option value="SCR">SCR (₨)</option>
+              <option value="SDG">SDG (ج.س)</option>
+              <option value="SHP">SHP (£)</option>
+              <option value="SLL">SLL (Le)</option>
+              <option value="SOS">SOS (Sh)</option>
+              <option value="SRD">SRD ($)</option>
+              <option value="SSP">SSP (£)</option>
+              <option value="STN">STN (Db)</option>
+              <option value="SYP">SYP (£S)</option>
+              <option value="SZL">SZL (E)</option>
+              <option value="TJS">TJS (SM)</option>
+              <option value="TMT">TMT (m)</option>
+              <option value="TND">TND (د.ت)</option>
+              <option value="TOP">TOP (T$)</option>
+              <option value="TRY">TRY (₺)</option>
+              <option value="TTD">TTD (TT$)</option>
+              <option value="TVD">TVD ($)</option>
+              <option value="TWD">TWD (NT$)</option>
+              <option value="TZS">TZS (TSh)</option>
+              <option value="UAH">UAH (₴)</option>
+              <option value="UGX">UGX (USh)</option>
+              <option value="UZS">UZS (soʻm)</option>
+              <option value="VND">VND (₫)</option>
+              <option value="VUV">VUV (VT)</option>
+              <option value="WST">WST (T)</option>
+              <option value="XAF">XAF (FCFA)</option>
+              <option value="XCD">XCD ($)</option>
+              <option value="XOF">XOF (CFA)</option>
+              <option value="XPF">XPF (₣)</option>
+              <option value="YER">YER (﷼)</option>
+              <option value="ZMW">ZMW (ZK)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="principal">Principal Amount</label>
+          <input type="number" id="principal" min="0" step="0.01" placeholder="0.00" required aria-describedby="principalHelp">
+          <small id="principalHelp" class="helper-text">Enter the initial investment amount</small>
+        </div>
+        <div class="form-group">
+          <label for="rate">Annual Interest Rate (%)</label>
+          <input type="number" id="rate" min="0" step="0.01" placeholder="0.00" required aria-describedby="rateHelp">
+          <small id="rateHelp" class="helper-text">Enter the annual interest rate as a percentage</small>
+        </div>
+        <div class="form-group">
+          <label for="time">Time Period (years)</label>
+          <input type="number" id="time" min="0" step="0.1" placeholder="0.0" required aria-describedby="timeHelp">
+          <small id="timeHelp" class="helper-text">Enter the duration in years</small>
+        </div>
+        <div class="form-group">
+          <label for="compoundFreq">Compounding Frequency</label>
+          <select id="compoundFreq" aria-label="Select compounding frequency">
+            <option value="1">Annually</option>
+            <option value="2">Semi-Annually</option>
+            <option value="4">Quarterly</option>
+            <option value="12">Monthly</option>
+            <option value="365">Daily</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="interestType">Interest Type</label>
+          <select id="interestType" aria-label="Select interest type">
+            <option value="simple">Simple Interest</option>
+            <option value="compound">Compound Interest</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate Interest</button>
+      </form>
+      <div id="interestResult" class="result" aria-live="polite" role="region"></div>
+    </section>
+
+    <section class="card" id="savingsGoalSection" aria-labelledby="savingsGoalTitle">
+      <h2 id="savingsGoalTitle" class="section-title">Savings Goal Tracker</h2>
+      <form id="savingsGoalForm" aria-describedby="savingsGoalDesc">
+        <p id="savingsGoalDesc" class="sr-only">Set and track your savings goals with target amounts and deadlines.</p>
+        <div class="form-group">
+          <label for="goalName">Goal Name</label>
+          <input type="text" id="goalName" placeholder="e.g., Vacation Fund" aria-describedby="goalNameHelp">
+          <small id="goalNameHelp" class="helper-text">Enter the name of your savings goal</small>
+        </div>
+        <div class="form-group">
+          <label for="goalAmount">Target Amount</label>
+          <input type="number" id="goalAmount" min="0" step="0.01" placeholder="0.00" aria-describedby="goalAmountHelp">
+          <small id="goalAmountHelp" class="helper-text">Enter the target savings amount</small>
+        </div>
+        <div class="form-group">
+          <label for="goalDate">Target Date</label>
+          <input type="date" id="goalDate" aria-describedby="goalDateHelp">
+          <small id="goalDateHelp" class="helper-text">Select the target date for your goal</small>
+        </div>
+        <div class="form-group">
+          <label for="currentSavings">Current Savings</label>
+          <input type="number" id="currentSavings" min="0" step="0.01" placeholder="0.00" aria-describedby="currentSavingsHelp">
+          <small id="currentSavingsHelp" class="helper-text">Enter your current savings for this goal</small>
+        </div>
+        <button type="button" class="btn btn-secondary" aria-label="Add savings goal">+ Add Goal</button>
+      </form>
+      <table id="savingsGoalTable" aria-label="Savings goals overview">
+        <caption>Savings Goals</caption>
+        <thead>
+          <tr>
+            <th scope="col">Goal Name</th>
+            <th scope="col">Target Amount</th>
+            <th scope="col">Current Savings</th>
+            <th scope="col">Target Date</th>
+          </tr>
+        </thead>
+        <tbody id="savingsGoalList" role="list" aria-live="polite">
+          <!-- Goals injected here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="debtSection" aria-labelledby="debtTitle">
+      <h2 id="debtTitle" class="section-title">Debt Management</h2>
+      <form id="debtForm" aria-describedby="debtDesc">
+        <p id="debtDesc" class="sr-only">Track and manage your debts with details like amount and interest rate.</p>
+        <div class="form-group">
+          <label for="debtName">Debt Name</label>
+          <input type="text" id="debtName" placeholder="e.g., Student Loan" aria-describedby="debtNameHelp">
+          <small id="debtNameHelp" class="helper-text">Enter the name of the debt</small>
+        </div>
+        <div class="form-group">
+          <label for="debtAmount">Debt Amount</label>
+          <input type="number" id="debtAmount" min="0" step="0.01" placeholder="0.00" aria-describedby="debtAmountHelp">
+          <small id="debtAmountHelp" class="helper-text">Enter the total debt amount</small>
+        </div>
+        <div class="form-group">
+          <label for="debtRate">Interest Rate (%)</label>
+          <input type="number" id="debtRate" min="0" step="0.01" placeholder="0.00" aria-describedby="debtRateHelp">
+          <small id="debtRateHelp" class="helper-text">Enter the annual interest rate</small>
+        </div>
+        <div class="form-group">
+          <label for="debtPayment">Monthly Payment</label>
+          <input type="number" id="debtPayment" min="0" step="0.01" placeholder="0.00" aria-describedby="debtPaymentHelp">
+          <small id="debtPaymentHelp" class="helper-text">Enter your monthly payment amount</small>
+        </div>
+        <button type="button" class="btn btn-secondary" aria-label="Add debt">+ Add Debt</button>
+      </form>
+      <table id="debtTable" aria-label="Debt overview">
+        <caption>Debts</caption>
+        <thead>
+          <tr>
+            <th scope="col">Debt Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Interest Rate</th>
+            <th scope="col">Monthly Payment</th>
+          </tr>
+        </thead>
+        <tbody id="debtList" role="list" aria-live="polite">
+          <!-- Debts injected here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="taxSection" aria-labelledby="taxTitle">
+      <h2 id="taxTitle" class="section-title">Tax Calculator</h2>
+      <form id="taxForm" aria-describedby="taxDesc">
+        <p id="taxDesc" class="sr-only">Estimate your taxes based on income and region.</p>
+        <div class="form-group">
+          <label for="taxableIncome">Taxable Income</label>
+          <input type="number" id="taxableIncome" min="0" step="0.01" placeholder="0.00" aria-describedby="taxableIncomeHelp">
+          <small id="taxableIncomeHelp" class="helper-text">Enter your annual taxable income</small>
+        </div>
+        <div class="form-group">
+          <label for="taxYear">Tax Year</label>
+          <select id="taxYear" aria-label="Select tax year">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="taxRegion">Region/Country</label>
+          <select id="taxRegion" aria-label="Select tax region">
+            <option value="us">United States</option>
+            <option value="ca">Canada</option>
+            <option value="uk">United Kingdom</option>
+            <option value="au">Australia</option>
+            <option value="eu">European Union</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate Tax</button>
+      </form>
+      <div id="taxResult" class="result" aria-live="polite" role="region"></div>
+    </section>
+
+    <section class="card" id="currencyConverterSection" aria-labelledby="currencyConverterTitle">
+      <h2 id="currencyConverterTitle" class="section-title">Currency Converter</h2>
+      <form id="currencyConverterForm" aria-describedby="currencyConverterDesc">
+        <p id="currencyConverterDesc" class="sr-only">Convert amounts between different currencies.</p>
+        <div class="form-group">
+          <label for="converterAmount">Amount</label>
+          <input type="number" id="converterAmount" min="0" step="0.01" placeholder="0.00" aria-describedby="converterAmountHelp">
+          <small id="converterAmountHelp" class="helper-text">Enter the amount to convert</small>
+        </div>
+        <div class="form-group">
+          <label for="fromCurrency">From Currency</label>
+          <select id="fromCurrency" aria-label="Select source currency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <!-- Add other currencies as needed -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="toCurrency">To Currency</label>
+          <select id="toCurrency" aria-label="Select target currency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <!-- Add other currencies as needed -->
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Convert Currency</button>
+      </form>
+      <div id="converterResult" class="result" aria-live="polite" role="region"></div>
+    </section>
+
+    <section class="card" id="investmentSection" aria-labelledby="investmentTitle">
+      <h2 id="investmentTitle" class="section-title">Investment Portfolio</h2>
+      <form id="investmentForm" aria-describedby="investmentDesc">
+        <p id="investmentDesc" class="sr-only">Track your investments by type and value.</p>
+        <div class="form-group">
+          <label for="investmentName">Investment Name</label>
+          <input type="text" id="investmentName" placeholder="e.g., Apple Stock" aria-describedby="investmentNameHelp">
+          <small id="investmentNameHelp" class="helper-text">Enter the name of the investment</small>
+        </div>
+        <div class="form-group">
+          <label for="investmentType">Type</label>
+          <select id="investmentType" aria-label="Select investment type">
+            <option value="stock">Stock</option>
+            <option value="bond">Bond</option>
+            <option value="mutual">Mutual Fund</option>
+            <option value="realestate">Real Estate</option>
+            <option value="crypto">Cryptocurrency</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="investmentValue">Current Value</label>
+          <input type="number" id="investmentValue" min="0" step="0.01" placeholder="0.00" aria-describedby="investmentValueHelp">
+          <small id="investmentValueHelp" class="helper-text">Enter the current value of the investment</small>
+        </div>
+        <button type="button" class="btn btn-secondary" aria-label="Add investment">+ Add Investment</button>
+      </form>
+      <table id="investmentTable" aria-label="Investment portfolio overview">
+        <caption>Investments</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody id="investmentList" role="list" aria-live="polite">
+          <!-- Investments injected here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="netWorthSection" aria-labelledby="netWorthTitle">
+      <h2 id="netWorthTitle" class="section-title">Net Worth Calculator</h2>
+      <form id="netWorthForm" aria-describedby="netWorthDesc">
+        <p id="netWorthDesc" class="sr-only">Calculate your net worth by entering assets and liabilities.</p>
+        <fieldset>
+          <legend>Assets</legend>
+          <div class="form-group">
+            <label for="assetName">Asset Name</label>
+            <input type="text" id="assetName" placeholder="e.g., Savings Account" aria-describedby="assetNameHelp">
+            <small id="assetNameHelp" class="helper-text">Enter the name of the asset</small>
+            <label for="assetValue">Value</label>
+            <input type="number" id="assetValue" min="0" step="0.01" placeholder="0.00" aria-describedby="assetValueHelp">
+            <small id="assetValueHelp" class="helper-text">Enter the value of the asset</small>
+            <button type="button" class="btn btn-secondary" aria-label="Add asset">+ Add Asset</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Liabilities</legend>
+          <div class="form-group">
+            <label for="liabilityName">Liability Name</label>
+            <input type="text" id="liabilityName" placeholder="e.g., Credit Card" aria-describedby="liabilityNameHelp">
+            <small id="liabilityNameHelp" class="helper-text">Enter the name of the liability</small>
+            <label for="liabilityValue">Value</label>
+            <input type="number" id="liabilityValue" min="0" step="0.01" placeholder="0.00" aria-describedby="liabilityValueHelp">
+            <small id="liabilityValueHelp" class="helper-text">Enter the value of the liability</small>
+            <button type="button" class="btn btn-secondary" aria-label="Add liability">+ Add Liability</button>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Calculate Net Worth</button>
+      </form>
+      <div id="netWorthResult" class="result" aria-live="polite" role="region"></div>
+    </section>
+
+    <section class="card" id="retirementSection" aria-labelledby="retirementTitle">
+      <h2 id="retirementTitle" class="section-title">Retirement Planner</h2>
+      <form id="retirementForm" aria-describedby="retirementDesc">
+        <p id="retirementDesc" class="sr-only">Plan your retirement by setting target age and income goals.</p>
+        <div class="form-group">
+          <label for="retirementAge">Target Retirement Age</label>
+          <input type="number" id="retirementAge" min="0" step="1" placeholder="65" aria-describedby="retirementAgeHelp">
+          <small id="retirementAgeHelp" class="helper-text">Enter your target retirement age</small>
+        </div>
+        <div class="form-group">
+          <label for="retirementIncome">Desired Annual Income</label>
+          <input type="number" id="retirementIncome" min="0" step="0.01" placeholder="0.00" aria-describedby="retirementIncomeHelp">
+          <small id="retirementIncomeHelp" class="helper-text">Enter your desired annual income in retirement</small>
+        </div>
+        <div class="form-group">
+          <label for="currentRetirementSavings">Current Retirement Savings</label>
+          <input type="number" id="currentRetirementSavings" min="0" step="0.01" placeholder="0.00" aria-describedby="currentRetirementSavingsHelp">
+          <small id="currentRetirementSavingsHelp" class="helper-text">Enter your current retirement savings</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Plan Retirement</button>
+      </form>
+      <table id="retirementTable" aria-label="Retirement plan overview">
+        <caption>Retirement Goals</caption>
+        <thead>
+          <tr>
+            <th scope="col">Target Age</th>
+            <th scope="col">Desired Income</th>
+            <th scope="col">Current Savings</th>
+          </tr>
+        </thead>
+        <tbody id="retirementList" role="list" aria-live="polite">
+          <!-- Retirement plans injected here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="emergencyFundSection" aria-labelledby="emergencyFundTitle">
+      <h2 id="emergencyFundTitle" class="section-title">Emergency Fund Tracker</h2>
+      <form id="emergencyFundForm" aria-describedby="emergencyFundDesc">
+        <p id="emergencyFundDesc" class="sr-only">Track your emergency fund progress towards a target amount.</p>
+        <div class="form-group">
+          <label for="emergencyFundTarget">Target Amount</label>
+          <input type="number" id="emergencyFundTarget" min="0" step="0.01" placeholder="0.00" aria-describedby="emergencyFundTargetHelp">
+          <small id="emergencyFundTargetHelp" class="helper-text">Enter your target emergency fund amount</small>
+        </div>
+        <div class="form-group">
+          <label for="emergencyFundCurrent">Current Amount</label>
+          <input type="number" id="emergencyFundCurrent" min="0" step="0.01" placeholder="0.00" aria-describedby="emergencyFundCurrentHelp">
+          <small id="emergencyFundCurrentHelp" class="helper-text">Enter your current emergency fund savings</small>
+        </div>
+        <progress id="emergencyFundProgress" max="100" value="0" aria-label="Emergency fund progress"></progress>
+        <button type="submit" class="btn btn-primary">Update Fund</button>
+      </form>
+    </section>
+
+    <section class="card" id="chartsSection" aria-label="Charts visualization">
+      <h2 class="section-title">Visual Insights</h2>
+      <div class="chart-container">
+        <canvas id="budgetChart" aria-label="Budget distribution chart" role="img"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="interestChart" aria-label="Interest growth chart" role="img"></canvas>
+      </div>
+    </section>
+
+    <section class="card" id="financialTipsSection" aria-labelledby="financialTipsTitle">
+      <h2 id="financialTipsTitle" class="section-title">Financial Tips</h2>
+      <article>
+        <h3>Budgeting Tips</h3>
+        <ul>
+          <li>Create a monthly budget and stick to it.</li>
+          <li>Track your expenses daily to avoid overspending.</li>
+          <li>Prioritize essential expenses like rent and utilities.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Saving Strategies</h3>
+        <ul>
+          <li>Set specific savings goals for short and long term.</li>
+          <li>Automate savings transfers to a separate account.</li>
+          <li>Review subscriptions and cancel unused services.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" id="feedbackSection" aria-labelledby="feedbackTitle">
+      <h2 id="feedbackTitle" class="section-title">Feedback</h2>
+      <form id="feedbackForm" aria-describedby="feedbackDesc">
+        <p id="feedbackDesc" class="sr-only">Share your feedback or suggestions to improve FinPilot.</p>
+        <div class="form-group">
+          <label for="feedbackEmail">Email (optional)</label>
+          <input type="email" id="feedbackEmail" placeholder="mortaldemon942@gmail.com" aria-describedby="feedbackEmailHelp">
+          <small id="feedbackEmailHelp" class="helper-text">Enter your email for follow-up (optional)</small>
+        </div>
+    
+<div style="display: flex; gap: 1rem;">
+  <a href="https://aaryanbanskota.github.io/-Feedback-Portal/" target="_blank" class="btn btn-primary">Click here to Send Feedback</a>
+</div>
+      </form>
+    </section>
+
+    <section class="card" id="exportSection" aria-label="Export your financial report">
+      <h2 class="section-title">Export Report</h2>
+      <div class="button-group">
+        <button id="exportPDF" class="btn btn-secondary" aria-label="Export report as PDF">Export as PDF</button>
+        <button id="exportText" class="btn btn-secondary" aria-label="Export report as Text">Export as Text</button>
+      </div>
+    </section>
+
+    <div class="print-only" aria-hidden="true">
+      <h2>FinPilot Financial Report</h2>
+      <h3>Budget Summary</h3>
+      <table aria-label="Budget summary for printing">
+        <caption>Budget Details</caption>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody id="printBudgetList">
+          <!-- Budget data injected here -->
+        </tbody>
+      </table>
+      <h3>Interest Summary</h3>
+      <p id="printInterestResult">Interest calculation results will appear here.</p>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <small>
+      © 2025 FinPilot — Privacy-first Financial Planning | 
+      <a href="/privacy" aria-label="View privacy policy">Privacy Policy</a> | 
+      <a href="/terms" aria-label="View terms of service">Terms of Service</a>
+    </small>
+    <div class="social-links" aria-label="Social media sharing">
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%20FinPilot!" aria-label="Share on Twitter">Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffinpilot.example.com" aria-label="Share on Facebook">Facebook</a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Ffinpilot.example.com" aria-label="Share on LinkedIn">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
