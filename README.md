@@ -2,7 +2,7 @@
 <p align="center">Plan smart. Save consistently. Your personal finance co-pilot, always ready to guide.</p>
 
 <div align="center">
-  <a href="https://github.com/aaryanbanskota/saving-money-site" target="_blank">
+  <a href="https://aaryanbanskota.github.io/FinPilot/" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-Code-black?style=for-the-badge&logo=github" />
   </a>
   <a href="https://aaryanbanskota.github.io/saving-money-site/" target="_blank">
